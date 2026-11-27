@@ -39,6 +39,14 @@ android {
     }
 
     signingConfigs {
+        // A fixed debug key, so each new CI build installs over the previous one.
+        // It only signs test builds and is not a secret.
+        getByName("debug") {
+            storeFile = rootProject.file("app/ci-debug.keystore")
+            storePassword = "android"
+            keyAlias = "androiddebugkey"
+            keyPassword = "android"
+        }
         if (keystorePropertiesFile.exists()) {
             register("release") {
                 keyAlias = keystoreProperties.getProperty("keyAlias")
